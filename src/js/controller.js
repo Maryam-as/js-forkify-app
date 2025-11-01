@@ -175,5 +175,6 @@ const showRecipe = async () => {
 
 // Listen for URL hash changes (e.g., when the user selects a different recipe)
 // and for initial page load — both should trigger rendering the correct recipe
-window.addEventListener('hashchange', showRecipe);
-window.addEventListener('load', showRecipe);
+['hashchange', 'load'].forEach(event =>
+  window.addEventListener(event, showRecipe)
+);
