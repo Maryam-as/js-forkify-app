@@ -39,6 +39,11 @@ const showRecipe = async () => {
     // Get the recipe ID from the URL hash (#)
     const recipeId = window.location.hash.slice(1);
 
+    // Guard clause
+    if (!recipeId) {
+      return;
+    }
+
     // Render loading spinner before fetching data
     renderSpinner(recipeContainer);
 
