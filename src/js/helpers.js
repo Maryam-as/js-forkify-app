@@ -1,3 +1,5 @@
+import { REQUEST_TIMEOUT_SEC } from './config';
+
 // Utility function to handle timeout for API calls
 const timeout = function (s) {
   return new Promise(function (_, reject) {
@@ -9,7 +11,12 @@ const timeout = function (s) {
 
 export const getJSON = async (url) => {
   try {
-    const response = await fetch(url);
+    // Use Promise.race() to race the fetch request against a timeout promise
+    // This ensures the request fails if it takes longer than REQUEST_TIMEOUT_SEC seconds
+    const response = await Promise.race([
+      fetch(url),
+      timeout(REQUEST_TIMEOUT_SEC),
+    ]);
 
     const resData = await response.json();
 
