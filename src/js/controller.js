@@ -8,6 +8,7 @@ import icons from 'url:../img/icons.svg';
 
 const recipeContainer = document.querySelector('.recipe');
 
+// Utility function to handle timeout for API calls
 const timeout = function (s) {
   return new Promise(function (_, reject) {
     setTimeout(function () {
@@ -18,6 +19,7 @@ const timeout = function (s) {
 
 ///////////////////////////////////////
 
+// Renders a loading spinner while fetching data
 const renderSpinner = parentEl => {
   const markup = `
 <div class="spinner">
@@ -30,13 +32,19 @@ const renderSpinner = parentEl => {
   parentEl.insertAdjacentHTML('afterbegin', markup);
 };
 
+// Fetch and display a recipe
 const showRecipe = async () => {
   // Load the recipe
   try {
+    // Get the recipe ID from the URL hash (#)
+    const recipeId = window.location.hash.slice(1);
+
+    // Render loading spinner before fetching data
     renderSpinner(recipeContainer);
 
+    // Fetch recipe data from the API
     const response = await fetch(
-      'https://forkify-api.jonas.io/api/v2/recipes/664c8f193e7aa067e94e8433'
+      `https://forkify-api.jonas.io/api/v2/recipes/${recipeId}`
     );
     const resData = await response.json();
 
@@ -44,6 +52,7 @@ const showRecipe = async () => {
       throw new Error(`${resData.message} (${response.status})`);
     }
 
+    // Format the recipe data to a simpler object
     let { recipe } = resData.data;
     recipe = {
       id: recipe.id,
@@ -56,7 +65,7 @@ const showRecipe = async () => {
       ingredients: recipe.ingredients,
     };
 
-    // Render the recipe
+    // Generate markup and render recipe in UI
     const markup = `
      <figure class="recipe__fig">
           <img src="${recipe.image}" alt="${
@@ -162,4 +171,9 @@ const showRecipe = async () => {
   }
 };
 
-showRecipe();
+///////////////////////////////////////
+
+// Listen for URL hash changes (e.g., when the user selects a different recipe)
+// and for initial page load — both should trigger rendering the correct recipe
+window.addEventListener('hashchange', showRecipe);
+window.addEventListener('load', showRecipe);
