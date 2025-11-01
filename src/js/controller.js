@@ -1,3 +1,9 @@
+// Polyfilling modern JavaScript features (e.g., promises, array methods, etc.)
+import 'core-js/stable';
+
+// Polyfilling async/await and generator functions for older browsers
+import 'regenerator-runtime/runtime';
+
 import icons from 'url:../img/icons.svg';
 
 const recipeContainer = document.querySelector('.recipe');
