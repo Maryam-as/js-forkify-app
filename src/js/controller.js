@@ -12,9 +12,23 @@ const timeout = function (s) {
 
 ///////////////////////////////////////
 
+const renderSpinner = parentEl => {
+  const markup = `
+<div class="spinner">
+          <svg>
+            <use href="${icons}#icon-loader"></use>
+          </svg>
+        </div>
+`;
+  parentEl.innerHTML = '';
+  parentEl.insertAdjacentHTML('afterbegin', markup);
+};
+
 const showRecipe = async () => {
   // Load the recipe
   try {
+    renderSpinner(recipeContainer);
+
     const response = await fetch(
       'https://forkify-api.jonas.io/api/v2/recipes/664c8f193e7aa067e94e8433'
     );
