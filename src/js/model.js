@@ -1,5 +1,6 @@
 import { async } from 'regenerator-runtime';
 import { API_URL } from './config';
+import { getJSON } from './helpers';
 
 export const state = {
   recipe: {},
@@ -8,13 +9,8 @@ export const state = {
 export const loadRecipe = async (recipeId) => {
   try {
     // Fetch recipe data from the API
-    const response = await fetch(`${API_URL}/${recipeId}`);
-
-    const resData = await response.json();
-
-    if (!response.ok) {
-      throw new Error(`${resData.message} (${response.status})`);
-    }
+    const url = `${API_URL}/${recipeId}`;
+    const resData = await getJSON(url);
 
     // Format the recipe data to a simpler object
     const { recipe } = resData.data;
@@ -29,6 +25,7 @@ export const loadRecipe = async (recipeId) => {
       ingredients: recipe.ingredients,
     };
   } catch (err) {
-    alert(err);
+    // Temporary error handling
+    console.error(`${err}💥💥💥`);
   }
 };
