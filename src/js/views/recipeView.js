@@ -29,6 +29,14 @@ class RecipeView {
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
+  addHandlerRender(handler) {
+    // Listen for URL hash changes (e.g., when the user selects a different recipe)
+    // and for initial page load — both should trigger rendering the correct recipe
+    ['hashchange', 'load'].forEach((event) =>
+      window.addEventListener(event, handler)
+    );
+  }
+
   #generateMarkup() {
     return `
      <figure class="recipe__fig">

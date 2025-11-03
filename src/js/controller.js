@@ -32,10 +32,9 @@ const controlRecipes = async () => {
   }
 };
 
-///////////////////////////////////////
+// Pubblisher-subscriber pattern
+const init = () => {
+  recipeView.addHandlerRender(controlRecipes);
+};
 
-// Listen for URL hash changes (e.g., when the user selects a different recipe)
-// and for initial page load — both should trigger rendering the correct recipe
-['hashchange', 'load'].forEach((event) =>
-  window.addEventListener(event, controlRecipes)
-);
+init();
