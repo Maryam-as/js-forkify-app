@@ -1,10 +1,9 @@
-import { async } from 'regenerator-runtime';
 import { API_URL } from './config';
 import { getJSON } from './helpers';
-import recipeView from './views/recipeView';
 
 export const state = {
   recipe: {},
+  search: { query: '', results: [] },
 };
 
 export const loadRecipe = async (recipeId) => {
@@ -30,3 +29,22 @@ export const loadRecipe = async (recipeId) => {
     throw err;
   }
 };
+
+export const loadSearchResults = async (query) => {
+  try {
+    state.search.query = query;
+
+    const resData = await getJSON(`${API_URL}?search=${query}`);
+
+    state.search.results = resData.data.recipes.map((recipe) => ({
+      id: recipe.id,
+      title: recipe.title,
+      image: recipe.image_url,
+      pubblisher: recipe.pubblisher,
+    }));
+  } catch (err) {
+    throw err;
+  }
+};
+
+loadSearchResults('pizza');
