@@ -8,6 +8,12 @@ import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
 
+// Enable Hot Module Replacement (HMR) during development.
+// This allows modules to be updated without a full page reload.
+if (module.hot) {
+  module.hot.accept();
+}
+
 // Fetch and display a recipe
 const controlRecipes = async () => {
   try {
