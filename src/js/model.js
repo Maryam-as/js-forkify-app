@@ -3,7 +3,7 @@ import { getJSON } from './helpers';
 
 export const state = {
   recipe: {},
-  search: { query: '', results: [], resultsPerPage: RESULTS_PER_PAGE },
+  search: { query: '', results: [], page: 1, resultsPerPage: RESULTS_PER_PAGE },
 };
 
 export const loadRecipe = async (recipeId) => {
@@ -49,7 +49,8 @@ export const loadSearchResults = async (query) => {
 
 loadSearchResults('pizza');
 
-export const getSearchResultsPage = (page = 1) => {
+export const getSearchResultsPage = (page = state.search.page) => {
+  state.search.page = page;
   const start = (page - 1) * state.search.resultsPerPage;
   const end = page * state.search.resultsPerPage;
   return state.search.results.slice(start, end);
