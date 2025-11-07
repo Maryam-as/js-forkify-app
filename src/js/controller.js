@@ -46,11 +46,11 @@ const controlSearchResults = async () => {
     console.error(err);
   }
 };
-controlSearchResults();
 
 // Pubblisher-subscriber pattern
 const init = () => {
   recipeView.addHandlerRender(controlRecipes);
+  searchView.addHandlerSearch(controlSearchResults);
 };
 
 init();
