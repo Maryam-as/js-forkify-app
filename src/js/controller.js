@@ -7,12 +7,13 @@ import * as model from './model.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
+import paginationView from './views/paginationView.js';
 
 // Enable Hot Module Replacement (HMR) during development.
 // This allows modules to be updated without a full page reload.
-if (module.hot) {
-  module.hot.accept();
-}
+// if (module.hot) {
+//   module.hot.accept();
+// }
 
 // Fetch and display a recipe
 const controlRecipes = async () => {
@@ -51,6 +52,7 @@ const controlSearchResults = async () => {
 
     await model.loadSearchResults(query);
     resultsView.render(model.getSearchResultsPage());
+    paginationView.render(model.state.search);
   } catch (err) {
     resultsView.renderError(err);
   }
