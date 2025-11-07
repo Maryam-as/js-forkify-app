@@ -11,9 +11,9 @@ import paginationView from './views/paginationView.js';
 
 // Enable Hot Module Replacement (HMR) during development.
 // This allows modules to be updated without a full page reload.
-// if (module.hot) {
-//   module.hot.accept();
-// }
+if (module.hot) {
+  module.hot.accept();
+}
 
 // Fetch and display a recipe
 const controlRecipes = async () => {
@@ -58,10 +58,16 @@ const controlSearchResults = async () => {
   }
 };
 
+const controlPagination = (targetPage) => {
+  resultsView.render(model.getSearchResultsPage(targetPage));
+  paginationView.render(model.state.search);
+};
+
 // Pubblisher-subscriber pattern
 const init = () => {
   recipeView.addHandlerRender(controlRecipes);
   searchView.addHandlerSearch(controlSearchResults);
+  paginationView.addHandlerClick(controlPagination);
 };
 
 init();
