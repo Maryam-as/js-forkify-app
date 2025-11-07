@@ -1,9 +1,9 @@
-import { API_URL } from './config';
+import { API_URL, RESULTS_PER_PAGE } from './config';
 import { getJSON } from './helpers';
 
 export const state = {
   recipe: {},
-  search: { query: '', results: [] },
+  search: { query: '', results: [], resultsPerPage: RESULTS_PER_PAGE },
 };
 
 export const loadRecipe = async (recipeId) => {
@@ -48,3 +48,9 @@ export const loadSearchResults = async (query) => {
 };
 
 loadSearchResults('pizza');
+
+export const getSearchResultsPage = (page = 1) => {
+  const start = (page - 1) * state.search.resultsPerPage;
+  const end = page * state.search.resultsPerPage;
+  return state.search.results.slice(start, end);
+};
