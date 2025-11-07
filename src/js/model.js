@@ -40,7 +40,7 @@ export const loadSearchResults = async (query) => {
       id: recipe.id,
       title: recipe.title,
       image: recipe.image_url,
-      pubblisher: recipe.pubblisher,
+      publisher: recipe.publisher,
     }));
   } catch (err) {
     throw err;
