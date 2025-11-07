@@ -6,6 +6,7 @@ import 'regenerator-runtime/runtime';
 import * as model from './model.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
+import resultsView from './views/resultsView.js';
 
 // Fetch and display a recipe
 const controlRecipes = async () => {
@@ -33,6 +34,8 @@ const controlRecipes = async () => {
 
 const controlSearchResults = async () => {
   try {
+    resultsView.renderSpinner();
+
     const query = searchView.getQuery();
 
     // Guard clause
@@ -41,9 +44,9 @@ const controlSearchResults = async () => {
     }
 
     await model.loadSearchResults(query);
-    console.log(model.state.search.results);
+    resultsView.render(model.state.search.results);
   } catch (err) {
-    console.error(err);
+    resultsView.renderError(err);
   }
 };
 
