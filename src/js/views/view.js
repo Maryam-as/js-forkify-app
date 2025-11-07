@@ -16,10 +16,6 @@ export default class View {
   }
 
   update(data) {
-    if (!data || (Array.isArray(data) && data.length === 0)) {
-      return this.renderError();
-    }
-
     // Store new data in the view
     this._data = data;
 
