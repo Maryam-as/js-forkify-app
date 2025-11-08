@@ -74,10 +74,21 @@ const controlServings = (newServings) => {
   recipeView.update(model.state.recipe);
 };
 
+const controlAddBookmark = () => {
+  // Add the current recipe to bookmarks in the state
+  // (if it isn’t already bookmarked — handled inside the model)
+  model.addBookmark(model.state.recipe);
+
+  // Update the recipe view to reflect bookmark status
+  // (this re-renders the bookmark icon as filled or outlined)
+  recipeView.update(model.state.recipe);
+};
+
 // Pubblisher-subscriber pattern
 const init = () => {
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
+  recipeView.addHandlerAddBookmark(controlAddBookmark);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
 };
