@@ -42,12 +42,14 @@ export const loadSearchResults = async (query) => {
       image: recipe.image_url,
       publisher: recipe.publisher,
     }));
+
+    // Reset page number to 1 whenever a new search is performed
+    // so that results always start from the first page for a new query
+    state.search.page = 1;
   } catch (err) {
     throw err;
   }
 };
-
-loadSearchResults('pizza');
 
 export const getSearchResultsPage = (page = state.search.page) => {
   state.search.page = page;
