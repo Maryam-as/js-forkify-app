@@ -74,13 +74,16 @@ const controlServings = (newServings) => {
   recipeView.update(model.state.recipe);
 };
 
-const controlAddBookmark = () => {
-  // Add the current recipe to bookmarks in the state
-  // (if it isn’t already bookmarked — handled inside the model)
-  model.addBookmark(model.state.recipe);
+const controlToggleBookmark = () => {
+  // Toggle bookmark: add if not bookmarked, remove if already bookmarked
+  if (!model.state.recipe.isBookmarked) {
+    model.addBookmark(model.state.recipe);
+  } else {
+    model.removeBookmark(model.state.recipe.id);
+  }
 
-  // Update the recipe view to reflect bookmark status
-  // (this re-renders the bookmark icon as filled or outlined)
+  // Update the recipe view to reflect the new bookmark state
+  // (updates the bookmark icon and any other relevant UI)
   recipeView.update(model.state.recipe);
 };
 
@@ -88,7 +91,7 @@ const controlAddBookmark = () => {
 const init = () => {
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
-  recipeView.addHandlerAddBookmark(controlAddBookmark);
+  recipeView.addHandlerAddBookmark(controlToggleBookmark);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
 };
