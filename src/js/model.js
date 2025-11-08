@@ -92,3 +92,16 @@ export const addBookmark = (recipe) => {
     state.recipe.isBookmarked = true;
   }
 };
+
+export const removeBookmark = (id) => {
+  // Remove the bookmark with the matching id from the bookmarks array
+  // Using filter creates a new array excluding the one to remove
+  state.bookmarks = state.bookmarks.filter((bookmark) => bookmark.id !== id);
+
+  // If the removed bookmark is the currently loaded recipe,
+  // update the recipe state to reflect it is no longer bookmarked
+  // This ensures the UI (bookmark icon) updates correctly
+  if (id === state.recipe.id) {
+    state.recipe.isBookmarked = false;
+  }
+};
