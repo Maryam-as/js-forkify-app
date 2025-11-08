@@ -30,6 +30,10 @@ const controlRecipes = async () => {
     //Update results view to mark selected search result
     resultsView.update(model.getSearchResultsPage());
 
+    // Update bookmarks view to highlight the active recipe
+    // Fixes bug where selected bookmark was not visually marked after navigation
+    bookmarksView.update(model.state.bookmarks);
+
     // Render loading spinner before fetching data
     recipeView.renderSpinner();
 
