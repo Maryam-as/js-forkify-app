@@ -8,6 +8,7 @@ import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
 import paginationView from './views/paginationView.js';
+import bookmarksView from './views/bookmarksView.js';
 
 // Enable Hot Module Replacement (HMR) during development.
 // This allows modules to be updated without a full page reload.
@@ -85,6 +86,9 @@ const controlToggleBookmark = () => {
   // Update the recipe view to reflect the new bookmark state
   // (updates the bookmark icon and any other relevant UI)
   recipeView.update(model.state.recipe);
+
+  // Render bookmarks
+  bookmarksView.render(model.state.bookmarks);
 };
 
 // Pubblisher-subscriber pattern
