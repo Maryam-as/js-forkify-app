@@ -4,6 +4,7 @@ import { getJSON } from './helpers';
 export const state = {
   recipe: {},
   search: { query: '', results: [], page: 1, resultsPerPage: RESULTS_PER_PAGE },
+  bookmarks: [],
 };
 
 export const loadRecipe = async (recipeId) => {
@@ -65,4 +66,20 @@ export const updateServings = (newServings) => {
   });
 
   state.recipe.servings = newServings;
+};
+
+export const addBookmark = (recipe) => {
+  // Skip if this recipe is already bookmarked to prevent duplicates
+  if (state.bookmarks.some((bookmark) => bookmark.id === recipe.id)) {
+    return;
+  }
+
+  // Add the given recipe object to the bookmarks array
+  state.bookmarks.push(recipe);
+
+  // If the added bookmark is the currently loaded recipe,
+  // set the 'isBookmarked' flag to true in the recipe state
+  if (recipe.id === state.recipe.id) {
+    state.recipe.isBookmarked = true;
+  }
 };
