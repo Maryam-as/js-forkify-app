@@ -25,6 +25,15 @@ export const loadRecipe = async (recipeId) => {
       cookingTime: recipe.cooking_time,
       ingredients: recipe.ingredients,
     };
+
+    // Check if the currently loaded recipe is in the bookmarks array
+    // If it is, mark the recipe as bookmarked for UI rendering;
+    // otherwise, ensure the isBookmarked flag is false
+    if (state.bookmarks.some((bookmark) => bookmark.id === recipeId)) {
+      state.recipe.isBookmarked = true;
+    } else {
+      state.recipe.isBookmarked = false;
+    }
   } catch (err) {
     console.error(`${err}💥💥💥`);
     throw err;
