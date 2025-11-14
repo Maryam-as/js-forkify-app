@@ -115,6 +115,12 @@ const controlAddRecipe = async (newRecipe) => {
     // Render success message
     addRecipeView.renderMessage();
 
+    // Update bookmarks view to include the new recipe
+    bookmarksView.render(model.state.bookmarks);
+
+    // Update the URL hash with the new recipe ID without reloading the page
+    window.history.pushState(null, '', `#${model.state.recipe.id}`);
+
     // Close form window
     setTimeout(() => {
       addRecipeView.toggleWindow();
