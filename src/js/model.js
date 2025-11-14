@@ -185,6 +185,14 @@ export const uploadRecipe = async (newRecipe) => {
 
     // Send POST request to API with formatted recipe data
     const data = await sendJSON(url, recipe);
+
+    // Store newly uploaded recipe in state
+    // Converts API response into normalized recipe object for consistent structure
+    state.recipe = createRecipeObject(data);
+
+    // Automatically bookmark the uploaded recipe
+    // Ensures user sees their newly created recipe saved without manually clicking bookmark
+    addBookmark(state.recipe);
   } catch (err) {
     throw err;
   }
