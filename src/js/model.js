@@ -1,5 +1,5 @@
 import { API_URL, RESULTS_PER_PAGE } from './config';
-import { getJSON, sendJSON } from './helpers';
+import { AJAX } from './helpers';
 
 export const state = {
   recipe: {},
@@ -28,7 +28,7 @@ export const loadRecipe = async (recipeId) => {
   try {
     // Fetch recipe data from the API
     const url = `${API_URL}/${recipeId}`;
-    const resData = await getJSON(url);
+    const resData = await AJAX(url);
 
     state.recipe = createRecipeObject(resData);
 
@@ -50,7 +50,7 @@ export const loadSearchResults = async (query) => {
   try {
     state.search.query = query;
 
-    const resData = await getJSON(`${API_URL}?search=${query}`);
+    const resData = await AJAX(`${API_URL}?search=${query}`);
 
     state.search.results = resData.data.recipes.map((recipe) => ({
       id: recipe.id,
@@ -187,7 +187,7 @@ export const uploadRecipe = async (newRecipe) => {
     const url = `${API_URL}?key=${process.env.PARCEL_FORKIFY_API_KEY}`;
 
     // Send POST request to API with formatted recipe data
-    const data = await sendJSON(url, recipe);
+    const data = await AJAX(url, recipe);
 
     // Store newly uploaded recipe in state
     // Converts API response into normalized recipe object for consistent structure

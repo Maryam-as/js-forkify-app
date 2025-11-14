@@ -9,12 +9,18 @@ const timeout = function (s) {
   });
 };
 
-export const getJSON = async (url) => {
+export const AJAX = async (url, data = undefined) => {
   try {
-    // Use Promise.race() to race the fetch request against a timeout promise
-    // This ensures the request fails if it takes longer than REQUEST_TIMEOUT_SEC seconds
+    const fetchPromise = data
+      ? fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        })
+      : fetch(url);
+
     const response = await Promise.race([
-      fetch(url),
+      fetchPromise,
       timeout(REQUEST_TIMEOUT_SEC),
     ]);
 
@@ -25,31 +31,7 @@ export const getJSON = async (url) => {
     }
 
     return resData;
-  } catch (error) {
-    // Re-throw the error so it can be handled by the function that called getJSON
-    throw error;
-  }
-};
-
-export const sendJSON = async (url, data) => {
-  try {
-    const response = await Promise.race([
-      fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      }),
-      timeout(REQUEST_TIMEOUT_SEC),
-    ]);
-
-    const resData = await response.json();
-
-    if (!response.ok) {
-      throw new Error(`${resData.message} (${response.status})`);
-    }
-
-    return resData;
-  } catch (error) {
-    throw error;
+  } catch (err) {
+    throw err;
   }
 };
