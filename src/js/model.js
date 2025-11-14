@@ -1,5 +1,5 @@
 import { API_URL, RESULTS_PER_PAGE } from './config';
-import { getJSON } from './helpers';
+import { getJSON, sendJSON } from './helpers';
 
 export const state = {
   recipe: {},
@@ -138,4 +138,51 @@ init();
 // Useful for debugging, resetting, or testing the app
 const clearBookmarks = () => {
   localStorage.removeItem('bookmarks');
+};
+
+export const uploadRecipe = async (newRecipe) => {
+  try {
+    // Convert ingredient input fields into an array of ingredient objects
+    // Example input name: ingredient-1="0.5,kg,Rice"
+    // Output: [{ quantity: 0.5, unit: 'kg', description: 'Rice' }]
+    const ingredients = Object.entries(newRecipe)
+      .filter(
+        ([key, value]) => key.startsWith('ingredient') && value.trim() !== '' // Only take filled ingredient fields
+      )
+      .map(([key, value]) => {
+        // Split into [quantity, unit, description]
+        const ingArr = value.split(',').map((v) => v.trim());
+
+        // Validate format
+        if (ingArr.length !== 3) {
+          throw new Error(
+            'Wrong ingredient format! Please use the correct format: Quantity,Unit,Description'
+          );
+        }
+
+        const [quantity, unit, description] = ingArr;
+
+        // Convert quantity to number or null if empty
+        return { quantity: quantity ? +quantity : null, unit, description };
+      });
+
+    // Build recipe object that matches Forkify API structure
+    const recipe = {
+      title: newRecipe.title,
+      publisher: newRecipe.publisher,
+      source_url: newRecipe.sourceUrl,
+      image_url: newRecipe.image,
+      servings: +newRecipe.servings,
+      cooking_time: +newRecipe.cookingTime,
+      ingredients,
+    };
+
+    // Construct API URL including API key
+    const url = `${API_URL}?key=${process.env.PARCEL_FORKIFY_API_KEY}`;
+
+    // Send POST request to API with formatted recipe data
+    const data = await sendJSON(url, recipe);
+  } catch (err) {
+    throw err;
+  }
 };
