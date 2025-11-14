@@ -133,3 +133,9 @@ const init = () => {
 // Immediately initialize bookmarks when the module is first imported
 // This runs once when the app loads and prepares initial state
 init();
+
+// Remove all bookmarks from localStorage
+// Useful for debugging, resetting, or testing the app
+const clearBookmarks = () => {
+  localStorage.removeItem('bookmarks');
+};
