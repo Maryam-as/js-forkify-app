@@ -9,6 +9,7 @@ import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
 import paginationView from './views/paginationView.js';
 import bookmarksView from './views/bookmarksView.js';
+import addRecipeView from './views/addRecipeView.js';
 
 // Enable Hot Module Replacement (HMR) during development.
 // This allows modules to be updated without a full page reload.
