@@ -4,6 +4,7 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 import * as model from './model.js';
+import { MODAL_CLOSE_TIMEOUT_SEC } from './config.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
@@ -100,6 +101,26 @@ const controlBookmarks = () => {
   bookmarksView.render(model.state.bookmarks);
 };
 
+const controlAddRecipe = async (newRecipe) => {
+  try {
+    // Upload the new recipe data
+    await model.uploadRecipe(newRecipe);
+
+    // Render recipe
+    recipeView.render(model.state.recipe);
+
+    // Render success message
+    addRecipeView.renderMessage();
+
+    // Close form window
+    setTimeout(() => {
+      addRecipeView.toggleWindow();
+    }, MODAL_CLOSE_TIMEOUT_SEC * 1000);
+  } catch (err) {
+    addRecipeView.renderError(err);
+  }
+};
+
 // Pubblisher-subscriber pattern
 const init = () => {
   bookmarksView.addHandlerRender(controlBookmarks);
@@ -108,6 +129,7 @@ const init = () => {
   recipeView.addHandlerAddBookmark(controlToggleBookmark);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
+  addRecipeView.addHandlerUpload(controlAddRecipe);
 };
 
 init();
