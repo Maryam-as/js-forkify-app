@@ -18,6 +18,9 @@ const createRecipeObject = (data) => {
     servings: recipe.servings,
     cookingTime: recipe.cooking_time,
     ingredients: recipe.ingredients,
+    // Conditionally add 'key' property only if it exists in the API response
+    // This ensures user-generated recipes include their API key while normal recipes omit it
+    ...(recipe.key && { key: recipe.key }),
   };
 };
 
