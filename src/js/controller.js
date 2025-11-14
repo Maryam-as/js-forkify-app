@@ -12,9 +12,9 @@ import bookmarksView from './views/bookmarksView.js';
 
 // Enable Hot Module Replacement (HMR) during development.
 // This allows modules to be updated without a full page reload.
-if (module.hot) {
-  module.hot.accept();
-}
+// if (module.hot) {
+//   module.hot.accept();
+// }
 
 // Fetch and display a recipe
 const controlRecipes = async () => {
@@ -95,8 +95,13 @@ const controlToggleBookmark = () => {
   bookmarksView.render(model.state.bookmarks);
 };
 
+const controlBookmarks = () => {
+  bookmarksView.render(model.state.bookmarks);
+};
+
 // Pubblisher-subscriber pattern
 const init = () => {
+  bookmarksView.addHandlerRender(controlBookmarks);
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
   recipeView.addHandlerAddBookmark(controlToggleBookmark);
