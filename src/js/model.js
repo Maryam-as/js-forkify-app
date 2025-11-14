@@ -117,3 +117,19 @@ export const removeBookmark = (id) => {
   // Persist updated bookmarks after removal to keep localStorage in sync with state
   persistBookmarks();
 };
+
+// Restore bookmarks from localStorage on application startup
+// This ensures that bookmarked recipes persist after page reloads
+// or when reopening the app in a new browser session
+const init = () => {
+  const storage = localStorage.getItem('bookmarks');
+
+  // If bookmarks were previously saved, parse and load them into state
+  if (storage) {
+    state.bookmarks = JSON.parse(storage);
+  }
+};
+
+// Immediately initialize bookmarks when the module is first imported
+// This runs once when the app loads and prepares initial state
+init();
