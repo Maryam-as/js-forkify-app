@@ -77,6 +77,12 @@ export const updateServings = (newServings) => {
   state.recipe.servings = newServings;
 };
 
+// Save bookmarks array to localStorage
+// This ensures bookmarks persist across page reloads and browser sessions
+const persistBookmarks = () => {
+  localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
+};
+
 export const addBookmark = (recipe) => {
   // Skip if this recipe is already bookmarked to prevent duplicates
   if (state.bookmarks.some((bookmark) => bookmark.id === recipe.id)) {
@@ -91,6 +97,9 @@ export const addBookmark = (recipe) => {
   if (recipe.id === state.recipe.id) {
     state.recipe.isBookmarked = true;
   }
+
+  // Persist updated bookmarks to localStorage so the new bookmark is not lost on refresh
+  persistBookmarks();
 };
 
 export const removeBookmark = (id) => {
@@ -104,4 +113,7 @@ export const removeBookmark = (id) => {
   if (id === state.recipe.id) {
     state.recipe.isBookmarked = false;
   }
+
+  // Persist updated bookmarks after removal to keep localStorage in sync with state
+  persistBookmarks();
 };
