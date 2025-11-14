@@ -7,24 +7,27 @@ export const state = {
   bookmarks: [],
 };
 
+const createRecipeObject = (data) => {
+  const { recipe } = data.data;
+  return {
+    id: recipe.id,
+    title: recipe.title,
+    publisher: recipe.publisher,
+    sourceUrl: recipe.source_url,
+    image: recipe.image_url,
+    servings: recipe.servings,
+    cookingTime: recipe.cooking_time,
+    ingredients: recipe.ingredients,
+  };
+};
+
 export const loadRecipe = async (recipeId) => {
   try {
     // Fetch recipe data from the API
     const url = `${API_URL}/${recipeId}`;
     const resData = await getJSON(url);
 
-    // Format the recipe data to a simpler object
-    const { recipe } = resData.data;
-    state.recipe = {
-      id: recipe.id,
-      title: recipe.title,
-      publisher: recipe.publisher,
-      sourceUrl: recipe.source_url,
-      image: recipe.image_url,
-      servings: recipe.servings,
-      cookingTime: recipe.cooking_time,
-      ingredients: recipe.ingredients,
-    };
+    state.recipe = createRecipeObject(resData);
 
     // Check if the currently loaded recipe is in the bookmarks array
     // If it is, mark the recipe as bookmarked for UI rendering;
