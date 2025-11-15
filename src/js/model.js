@@ -59,6 +59,7 @@ export const loadSearchResults = async (query) => {
       title: recipe.title,
       image: recipe.image_url,
       publisher: recipe.publisher,
+      ...(recipe.key && { key: recipe.key }),
     }));
 
     // Reset page number to 1 whenever a new search is performed
