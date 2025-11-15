@@ -1,7 +1,7 @@
 // Polyfilling modern JavaScript features (e.g., promises, array methods, etc.)
-import 'core-js/stable';
+// import 'core-js/stable';
 // Polyfilling async/await and generator functions for older browsers
-import 'regenerator-runtime/runtime';
+// import 'regenerator-runtime/runtime';
 
 import * as model from './model.js';
 import { MODAL_CLOSE_TIMEOUT_SEC } from './config.js';
