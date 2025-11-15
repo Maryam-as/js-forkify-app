@@ -27,7 +27,7 @@ const createRecipeObject = (data) => {
 export const loadRecipe = async (recipeId) => {
   try {
     // Fetch recipe data from the API
-    const url = `${API_URL}/${recipeId}`;
+    const url = `${API_URL}/${recipeId}?key=${process.env.PARCEL_FORKIFY_API_KEY}`;
     const resData = await AJAX(url);
 
     state.recipe = createRecipeObject(resData);
@@ -50,7 +50,9 @@ export const loadSearchResults = async (query) => {
   try {
     state.search.query = query;
 
-    const resData = await AJAX(`${API_URL}?search=${query}`);
+    const resData = await AJAX(
+      `${API_URL}?search=${query}&key=${process.env.PARCEL_FORKIFY_API_KEY}`
+    );
 
     state.search.results = resData.data.recipes.map((recipe) => ({
       id: recipe.id,
