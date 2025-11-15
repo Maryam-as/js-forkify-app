@@ -11,7 +11,7 @@
     "clean": "rm -rf .parcel-cache dist",
     "dev": "npm run clean && parcel index.html",
     "start": "parcel index.html",
-    "build": "parcel build index.html --dist-dir ./dist"
+    "build": "parcel build index.html --dist-dir ./dist --no-optimize"
   },
   "author": "",
   "license": "ISC",
